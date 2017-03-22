@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DCC104 - Exemplo 01</title>
+  </head>
+  <body>
+    <h1>DCC104 - Exemplo 01</h1>
+    <canvas></canvas>
+    <script>
+
+      var eCanvas = document.getElementsByTagName("canvas")[0];
+      var ctx = eCanvas.getContext("2d");
+
+      var azul = {
+        x: 0,
+        y: 50
+      };
+
+      var fps = 120;
+      var atual = new Date();
+      var anterior = new Date();
+      var dt = 1/fps;
+      
+      desenha();
+
+      function desenha(){
+        requestAnimationFrame(desenha);
+        atual = new Date();
+        dt = (atual - anterior)/1000;
+        ctx.clearRect(0,0,eCanvas.width, eCanvas.height)
+        ctx.fillStyle = "darkgreen";
+        ctx.fillText("dt: "+dt+" fps:"+Math.floor(1/dt), 10, 10);
+        azul.x = azul.x + 30*dt;
+        azul.y = azul.y + 10*dt;
+        desenhaAzul(ctx);
+        desenhaVermelho(ctx);
+        anterior = atual;
+      }
+
+
+    </script>
+  </body>
+
+
+</html>
