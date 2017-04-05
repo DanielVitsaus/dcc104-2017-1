@@ -1,0 +1,23 @@
+body {
+	font-family: sans-serif;
+	background: #000;
+	color: #DDD;
+}
+#container {
+	width: 100%;
+	margin: 0 ;
+	text-align: center;
+	background: #000;
+}
+
+#container canvas {
+    width: inherit;
+}
+
+#container p {
+	font-size: 24px;
+}
+
+#container p span {
+	margin: 0;
+}
