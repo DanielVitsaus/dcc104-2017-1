@@ -10,7 +10,6 @@ const G = -10;		//< gravity
 var sizeScreem = SizeScreem();
 //////////////////////////////////////////
 
-//var sheetBD = new SpriteSheetDB();
 
 var herda = function(derivada, base) {
 	derivada.prototype = Object.create(base.prototype);

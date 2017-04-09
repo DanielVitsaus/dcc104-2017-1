@@ -58,19 +58,13 @@ function Animation(){
 
     this.startState = function(key = "idle"){
         this.currentState = this.animations[key];
-        this.currentState.sprite.indexFrame = 1;
-        this.currentState.sprite.delay = 0;
-        //this.isInitialize = false;
+        
         
         return this.currentState;
     }
 
     this.changeState = function(key){
-        this.currentState = this.animations[key];
-        this.currentState.sprite.setIndexFrame(1);
-        this.currentState.sprite.setDelay(0);
-        this.isInitialize = false;
-        
+        this.currentState = this.animations[key];        
         return this.currentState;
     }    
     
@@ -84,9 +78,10 @@ function Animator(animation){
     
     this.DrawRepeat = function(key){     
         
-        if(this.animation.isInitialize)
-            this.currentAnimation = this.animation.changeState(key);
         
+        if (!Object.is(this.currentAnimation, this.animation.changeState(key))){
+            this.currentAnimation = this.animation.changeState(key);        
+        }  
         
         this.currentAnimation.sprite.Draw = function( context ){        
 
@@ -95,7 +90,7 @@ function Animator(animation){
                 this.sXY.x = this.sizeFrame.x * this.indexFrame;
             }
             else{
-                this.delay += ( this.sizeFrame.x * DT * (this.lengthFrame / (DT * this.lengthFrame * ( (this.time <= 0) ? 0.01 : this.time ) ) ) );
+                this.delay += ( this.sizeFrame.x * DT * (this.lengthFrame / (DT * this.lengthFrame * ( (this.time <= 0) ? 0 : this.time ) ) ) );
             }
 
             if (this.sXY.x >= ( this.sizeFrame.x * this.lengthFrame ) ){
@@ -171,7 +166,7 @@ function Animator(animation){
         
         switch(typeAnimation){
             
-            case REPEAT: this.DrawRepeat(key); 
+            case REPEAT: this.DrawRepeat(key);                 
                          this.currentAnimation.sprite.Draw(context); break;
             
             case NO_REPEAT: this.DrawNO_Repeat(key);    
