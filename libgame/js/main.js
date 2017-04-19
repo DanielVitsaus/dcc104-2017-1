@@ -4,46 +4,38 @@ var deltaTime = 0;
 
 function start(){
     
+    /*
     sheetBD.add("walk", "img/RobotBoyWalkSprite.png");
     sheetBD.add("idle", "img/RobotBoyIdleSprite.png");
+    */
+    
+    sheets.add("walk", "img/RobotBoyWalkSprite.png");
+    sheets.add("idle", "img/RobotBoyIdleSprite.png");
+    sheets.add("jump", "img/RobotBoyJumpSprite.png");
+    
     
     var canvas      = document.getElementById("game");
     var context     = canvas.getContext("2d");    
     
-    sheetBD.printDataBase();
+    //sheets.print();
     
     var tra = new Player(new Vector2(0,0), 
                          new Vector2(128,256), 
-                         new Vector2(0,0), 
+                         new Vector2(sizeScreem.width/2,sizeScreem.height/2), 
                          new Vector2(128/2,256/2));
     
     var ob = new GameObject();
     
-    var x , y = 0;
+    var x = 1 , y = 0;
     console.log(tra.position);
+    console.log(sizeScreem);
     console.log(ob);
     
     Update();
     
     function Update (){
         
-        requestAnimationFrame( Update );
-        
-        /*
-        var inicio = new Date().getTime();
-        var fim = new Date().getSeconds();
-        
-        if (fim === 0)
-            fim = 1;
-        
-        fim = DT / fim ;
-        
-        deltaTime = (fim);//(Math.sqrt(DT) ) ;
-        
-        console.log(deltaTime);
-        */
-        
-        //console.log(new Date().getSeconds());
+        requestAnimationFrame( Update );      
     
         render(context);        
     }
@@ -51,62 +43,55 @@ function start(){
     function render ( context ){
 
         context.clearRect(0,0,sizeScreem.width,sizeScreem.height); 
-        context.save();
-           
-
-        //tra.Translate( context );
-        tra.move();
         
-        tra.limitMove();
-        //tra.transform.acceleration.copy ( new Vector2(0,1).multiplyScalar(1 * -G / DT ) ) ;
-        //tra.transform.acceleration.copy ( new Vector2(1,0).multiplyScalar(-30) ) ;
-        
-        tra.acceleration.copy ( new Vector2(x, 0.8 * -G / DT) ) ;
-       
-        
-        
-        //tra.transform.Rotate((Math.PI/180)*90, context);        
-        context.translate(sizeScreem.width/2 - 64,sizeScreem.height/2);
-        
-        //tra.Rotate((Math.PI/180 * 45), context);
-        //context.scale(-1,1);
-       
-        tra.animator.Play(tra.nameState, REPEAT, context );
-        //console.log(tra.position);
-        context.restore();
+        tra.move( context );   
+        tra.limitMove();          
+        tra.draw( context );       
 
     }   
     
+    var down = false;
+    var contJump = 1;
     
     addEventListener("keydown", function(e){
         if(e.keyCode == 37 || e.keyCode == 65){
-            x = -80;
+            tra.moveToRight = true;
             tra.nameState = "walk";
+            x = 1;
+            console.log("L -> " + Math.trunc(sizeScreem.height - 64));
+            //tra.position.multiplyVectors(new Vector2(-1,1));
             
         } else if(e.keyCode == 39 || e.keyCode == 68){
-            x = 80 ;
+            tra.moveToLeft = true;
             tra.nameState = "walk";
+            x = -1;
             
-        } else if(e.keyCode == 38 || e.keyCode == 32){
-            //if(!down) {
-                //down = true;
-                //dk.jump = true;
-            //}
+        } else if(e.keyCode == 38 || e.keyCode == 32){           
+           
+            if(!down) {
+                
+                down = true;
+                tra.jump = true;
+                contJump++;
+            }
         }
     });
     
     addEventListener("keyup", function(e){
         if(e.keyCode == 37 || e.keyCode == 65){
-            x = 0;
+            tra.moveToRight = false;
             tra.nameState = "idle";
             
         } else if(e.keyCode == 39 || e.keyCode == 68) {
-            x = 0;
+            tra.moveToLeft = false;
             tra.nameState = "idle";
             
         } else if(e.keyCode == 38 || e.keyCode == 32) {
-            //dk.jump = false;
-            //down = false;
+            tra.jump = false;
+            if (Math.trunc(tra.position.y) == Math.trunc(sizeScreem.height - 64)){
+                down = false;
+                contJump = 1;
+            }
         }					
     });
     

@@ -1,19 +1,30 @@
 "use strict";
 
 
-function GameObject( pos = new Vector2(0,0)){
+function GameObject( pos = new Vector2(0,0) ){
     Transform.call(this);    
     
-       
+    this.fatx = 1.0;				
+	this.faty = 0.0;
+    
     //! atualiza posição e orientação do personagem
-	this.move = function(dt = new Vector2(10 * DT, G * DT) ){ //, g, map) {
+	this.move = function(context) { // dt = new Vector2(10 * DT, G * DT) ){ //, g, map) {
 		
-        this.velocity.addVectors( this.acceleration.multiplyVectors(dt) );        
+        this.update( context );       
+        
+        this.acceleration.x -= this.fatx * this.velocity.x;
+		this.acceleration.y -= this.faty * this.velocity.y;
+        
+        this.velocity.x += this.acceleration.x * DT;
+		this.velocity.y += (this.acceleration.y + G) * DT;
         
         if(Math.abs(this.velocity.x) < EPS) this.velocity.x = 0.0;
 		if(Math.abs(this.velocity.y) < EPS) this.velocity.y = 0.0;
         
-        this.position.addVectors( this.velocity.multiplyVectors(dt) );
+        //this.position.addVectors( this.velocity.multiplyVectors(dt) );
+        
+        this.position.x += this.velocity.x * DT;
+        this.position.y -= this.velocity.y * DT;
 		/*        
         this.update(dt, g);
 		
@@ -72,13 +83,15 @@ function GameObject( pos = new Vector2(0,0)){
 
 Object.assign(GameObject.prototype ,{ 
     
-    draw: function(ctx, map) {  },
+    draw: function(ctx) {  },
 
     update: function(dt, g) {  },
 
-    limitMove: function( map = undefined ) {  }
+    limitMove: function( map = undefined ) {  },
+    
+    update: function( context )  {  }
 
-}, Collision.prototype, new Collision());
+},Collision.prototype, new Collision());
 /*
 GameObject.prototype.draw = function(ctx, map) {  }
 

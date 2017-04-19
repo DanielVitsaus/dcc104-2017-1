@@ -24,12 +24,11 @@ function Sprite(coord, size, url) {
 
 	this.draw = function(ctx) {
 		ctx.save();
-		ctx.translate(this.coord.x, this.coord.y);
+		ctx.translate(this.coord.x, this.coord.y);        
 
 		ctx.drawImage(this.image, -this.size.w/2, -this.size.h/2, this.size.w, this.size.h);
 		ctx.restore();
 	}
-
 	
 	this.move = function(dt, g) {
 		this.vel.vx += this.acel.ax * dt;
@@ -47,18 +46,18 @@ function Sprite(coord, size, url) {
 	}
 
 	this.moveDir = function(g) {
-		this.acel.ax = 36;		
+		this.acel.ax = 50;		
 	}
 	
-    this.moveEs  = function(g) {
-		this.acel.ax = -36;	
+    this.moveEs = function(g) {
+		this.acel.ax = -50;	
 	}
 	
-    this.toUp    = function(g) { 
+    this.toUp = function(g) { 
         this.acel.ay = -20 * Math.sqrt(-g); 
     }
 	
-    this.toDown  = function(g) { 
+    this.toDown = function(g) { 
         this.acel.ay = 20 * Math.sqrt(-g); 
     }
 }

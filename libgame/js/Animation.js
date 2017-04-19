@@ -57,8 +57,7 @@ function Animation(){
     }
 
     this.startState = function(key = "idle"){
-        this.currentState = this.animations[key];
-        
+        this.currentState = this.animations[key];     
         
         return this.currentState;
     }
@@ -99,7 +98,7 @@ function Animator(animation){
                 this.indexFrame = 1;
             }
 
-            context.drawImage(this.img, this.sXY.x, this.sXY.y, this.sW_H.width, this.sW_H.height, this.dXY.x, this.dXY.y,this.dW_H.width, this.dW_H.height);
+            context.drawImage(this.img, this.sXY.x, this.sXY.y, this.sW_H.width, this.sW_H.height, -this.dXY.x/2, -this.dXY.y/2, this.dW_H.width, this.dW_H.height);
         }
         
     }

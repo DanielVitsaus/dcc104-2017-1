@@ -1,7 +1,7 @@
 body {
 	font-family: sans-serif;
-	background: #222;
-	color: #DDD;
+	background: #D3D3D3;
+	color: #DCD;
 }
 #container {
 	width: 800px;
@@ -10,7 +10,6 @@ body {
 	background: #111;
 	padding: 1px;
 }
-
 
 #container p {
 	font-size: 24px;
