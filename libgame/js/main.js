@@ -17,7 +17,8 @@ function start(){
     var canvas      = document.getElementById("game");
     var context     = canvas.getContext("2d");    
     
-    //sheets.print();
+    //sheets.print();   
+    
     
     var tra = new Player(new Vector2(0,0), 
                          new Vector2(128,256), 
@@ -27,9 +28,6 @@ function start(){
     var ob = new GameObject();
     
     var x = 1 , y = 0;
-    console.log(tra.position);
-    console.log(sizeScreem);
-    console.log(ob);
     
     Update();
     
@@ -54,22 +52,18 @@ function start(){
     var contJump = 1;
     
     addEventListener("keydown", function(e){
+       
         if(e.keyCode == 37 || e.keyCode == 65){
             tra.moveToRight = true;
-            tra.nameState = "walk";
             x = 1;
-            console.log("L -> " + Math.trunc(sizeScreem.height - 64));
-            //tra.position.multiplyVectors(new Vector2(-1,1));
             
         } else if(e.keyCode == 39 || e.keyCode == 68){
             tra.moveToLeft = true;
-            tra.nameState = "walk";
             x = -1;
             
         } else if(e.keyCode == 38 || e.keyCode == 32){           
            
-            if(!down) {
-                
+            if(!down) {                
                 down = true;
                 tra.jump = true;
                 contJump++;
@@ -78,17 +72,17 @@ function start(){
     });
     
     addEventListener("keyup", function(e){
+       
         if(e.keyCode == 37 || e.keyCode == 65){
             tra.moveToRight = false;
-            tra.nameState = "idle";
             
         } else if(e.keyCode == 39 || e.keyCode == 68) {
             tra.moveToLeft = false;
-            tra.nameState = "idle";
             
         } else if(e.keyCode == 38 || e.keyCode == 32) {
             tra.jump = false;
-            if (Math.trunc(tra.position.y) == Math.trunc(sizeScreem.height - 64)){
+            //down = false;
+            if (Math.trunc(tra.components["transforn"].position.y) == Math.trunc(sizeScreem.height - 64)){
                 down = false;
                 contJump = 1;
             }

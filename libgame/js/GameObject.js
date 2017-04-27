@@ -1,8 +1,11 @@
 "use strict";
 
 
-function GameObject( pos = new Vector2(0,0) ){
-    Transform.call(this);    
+function GameObject( ){  
+    
+    this.components = {} ; 
+    this.addComponents("transforn", new Transform());    
+    
     
     this.fatx = 1.0;				
 	this.faty = 0.0;
@@ -12,19 +15,19 @@ function GameObject( pos = new Vector2(0,0) ){
 		
         this.update( context );       
         
-        this.acceleration.x -= this.fatx * this.velocity.x;
-		this.acceleration.y -= this.faty * this.velocity.y;
+        this.components["transforn"].acceleration.x -= this.fatx * this.components["transforn"].velocity.x;
+		this.components["transforn"].acceleration.y -= this.faty * this.components["transforn"].velocity.y;
         
-        this.velocity.x += this.acceleration.x * DT;
-		this.velocity.y += (this.acceleration.y + G) * DT;
+        this.components["transforn"].velocity.x += this.components["transforn"].acceleration.x * DT;
+		this.components["transforn"].velocity.y += (this.components["transforn"].acceleration.y + G) * DT;
         
-        if(Math.abs(this.velocity.x) < EPS) this.velocity.x = 0.0;
-		if(Math.abs(this.velocity.y) < EPS) this.velocity.y = 0.0;
+        if(Math.abs(this.components["transforn"].velocity.x) < EPS) this.components["transforn"].velocity.x = 0.0;
+		if(Math.abs(this.components["transforn"].velocity.y) < EPS) this.components["transforn"].velocity.y = 0.0;
         
         //this.position.addVectors( this.velocity.multiplyVectors(dt) );
         
-        this.position.x += this.velocity.x * DT;
-        this.position.y -= this.velocity.y * DT;
+        this.components["transforn"].position.x += this.components["transforn"].velocity.x * DT;
+        this.components["transforn"].position.y -= this.components["transforn"].velocity.y * DT;
 		/*        
         this.update(dt, g);
 		
@@ -79,23 +82,36 @@ function GameObject( pos = new Vector2(0,0) ){
 	this.head  = function() { return this.r.y - this.sz.h/2 + this.bd.h; }
     */
     
-} herda(GameObject, Transform);
+} 
 
 Object.assign(GameObject.prototype ,{ 
     
     draw: function(ctx) {  },
-
-    update: function(dt, g) {  },
 
     limitMove: function( map = undefined ) {  },
     
     update: function( context )  {  }
 
 },Collision.prototype, new Collision());
-/*
-GameObject.prototype.draw = function(ctx, map) {  }
 
-GameObject.prototype.update = function(dt, g) {  }
+GameObject.prototype.addComponents = function(key, object){
+        
+    this.components[key] = object;
+    /*
+    var nomePro = Object.keys(object.prototype);
+    for(var prop in nomePro){
+        //this.prototype[prop] = object.prop];
+        //console.log(nomePro[prop]);
+    }
+    Object.assign(GameObject.prototype, object , key.prototype) ;
+    */
+};
 
-GameObject.prototype.limitMove = function( map = undefined ) {  }
-*/
+GameObject.prototype.removeComponents = function(key){
+    
+    delete this.components[key];    
+};
+
+GameObject.prototype.getComponents = function(key){
+    return this.components[key];
+};

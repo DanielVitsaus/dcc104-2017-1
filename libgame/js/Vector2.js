@@ -291,7 +291,6 @@ Vector2.prototype = {
 		this.y = - this.y;
 
 		return this;
-
 	},
 
 	dot: function ( v ) {

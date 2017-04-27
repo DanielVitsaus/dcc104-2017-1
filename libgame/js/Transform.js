@@ -10,51 +10,36 @@ function Transform(){
     
 }
 
+Object.defineProperty(this, "position", {
+      get: function() { return this.position; },
+      set: function(pos) { this.position = pos; },
+});
+
+Object.defineProperty(this, "rotate", {
+      get: function() { return this.rotate; },
+      set: function(r) { this.rotate = r; },
+});
+
+Object.defineProperty(this, "scale", {
+      get: function() { return this.scale; },
+      set: function(s) { this.scale = s; },
+});
+
+Object.defineProperty(this, "acceleration", {
+      get: function() { return this.acceleration; },
+      set: function(ac) { this.acceleration = ac; },
+});
+
+Object.defineProperty(this, "velocity", {
+      get: function() { return this.velocity; },
+      set: function(v) { this.velocity = v; },
+});
+
 Transform.prototype = {
     
     construct: Transform,
     
-    isTransform: true,
-    
-    getPosition(){
-        return this.position;
-    },
-    
-    getRotate(){
-        return this.rotate;
-    },
-    
-    getScale(){
-        return this.scale;
-    },
-    
-    getAcceleration(){
-        return this.acceleration;
-    },
-    
-    getVelocity(){
-        return this.velocity;
-    },
-    
-    setPosition( pos ){
-        this.position = pos;
-    },
-    
-    setRotate( ro ){
-        this.rotate = ro;
-    },
-    
-    setScale( s ){
-        this.scale = s;
-    },
-    
-    setAcceleration( ac ){
-        this.acceleration = ac;
-    },
-    
-    setVelocity( ve ){
-        this.velocity = ve;
-    },    
+    isTransform: true,       
     
     Translate: function( vec ){
         
@@ -64,16 +49,18 @@ Transform.prototype = {
         this.position.addVectors( this.velocity );
     },    
     
-    Rotate: function( angle, context){
+    Rotate: function( angle, context, pivo = new Vector2( this.position.x + (0.5 * 64), this.position.y + (0.5 * 128) ) ){
                 
-        context.translate( ( this.position.x + (0.5 * 64) ), ( this.position.y + (0.5 * 128) ) );        
+        context.translate( pivo.x, pivo.y );        
         context.rotate(angle); 
-        context.translate( -( this.position.x + (0.5 * 64) ), -( this.position.y + (0.5 * 128) ));      
+        pivo.negate();
+        context.translate( pivo.x, pivo.y );      
         
     },
     
     Scale: function(s, context){
         context.scale(s.x, s.y);
-    }
+    }    
     
 }
+
