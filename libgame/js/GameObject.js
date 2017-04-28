@@ -84,17 +84,13 @@ function GameObject( ){
     
 } 
 
-Object.assign(GameObject.prototype ,{ 
+GameObject.prototype.draw: function(ctx) {  };
+
+GameObject.prototype.limitMove: function( map = undefined ) {  };
     
-    draw: function(ctx) {  },
+GameObject.prototype.update: function( context )  {  };
 
-    limitMove: function( map = undefined ) {  },
-    
-    update: function( context )  {  }
-
-},Collision.prototype, new Collision());
-
-GameObject.prototype.addComponents = function(key, object){
+GameObject.prototype.addComponents = function( key, object ){
         
     this.components[key] = object;
     /*
@@ -107,11 +103,6 @@ GameObject.prototype.addComponents = function(key, object){
     */
 };
 
-GameObject.prototype.removeComponents = function(key){
-    
-    delete this.components[key];    
-};
+GameObject.prototype.removeComponents = function( key ){ delete this.components[key]; };
 
-GameObject.prototype.getComponents = function(key){
-    return this.components[key];
-};
+GameObject.prototype.getComponents = function( key ){ return this.components[key]; };

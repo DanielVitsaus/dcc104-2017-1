@@ -58,9 +58,7 @@ Transform.prototype = {
         
     },
     
-    Scale: function(s, context){
-        context.scale(s.x, s.y);
-    }    
+    Scale: function(s, context){ context.scale(s.x, s.y); }    
     
 }
 
