@@ -2,44 +2,46 @@
 
 function Transform(){
     
-    this.position = new Vector2();
+    this.positionn = new Vector2();
     this.rotate = 0;
     this.scale = new Vector2();
     this.acceleration = new Vector2();
-    this.velocity = new Vector2(); 
+    this.velocity = new Vector2();   
     
 }
 
-Object.defineProperty(this, "position", {
-      get: function() { return this.position; },
-      set: function(pos) { this.position = pos; },
-});
-
-Object.defineProperty(this, "rotate", {
-      get: function() { return this.rotate; },
-      set: function(r) { this.rotate = r; },
-});
-
-Object.defineProperty(this, "scale", {
-      get: function() { return this.scale; },
-      set: function(s) { this.scale = s; },
-});
-
-Object.defineProperty(this, "acceleration", {
-      get: function() { return this.acceleration; },
-      set: function(ac) { this.acceleration = ac; },
-});
-
-Object.defineProperty(this, "velocity", {
-      get: function() { return this.velocity; },
-      set: function(v) { this.velocity = v; },
-});
 
 Transform.prototype = {
     
     construct: Transform,
     
     isTransform: true,       
+    
+    "position": {
+      get: function() { return this.position; },
+      set: function(pos) { this.position = pos;},
+    },
+    
+    "rotate": {
+      get: function() { return this.rotate; },
+      set: function(r) { this.rotate = r; },
+    },
+    
+    "scale": {
+      get: function() { return this.scale; },
+      set: function(s) { this.scale = s; },
+    },   
+    
+    "acceleration": {
+      get: function() { return this.acceleration; },
+      set: function(ac) { this.acceleration = ac; },
+    },
+    
+    "velocity": {
+      get: function() { return this.velocity; },
+      set: function(v) { this.velocity = v; },
+    },
+
     
     Translate: function( vec ){
         

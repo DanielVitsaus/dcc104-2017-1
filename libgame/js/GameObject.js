@@ -84,11 +84,11 @@ function GameObject( ){
     
 } 
 
-GameObject.prototype.draw: function(ctx) {  };
+GameObject.prototype.draw = function(ctx) {  };
 
-GameObject.prototype.limitMove: function( map = undefined ) {  };
+GameObject.prototype.limitMove = function( map = undefined ) {  };
     
-GameObject.prototype.update: function( context )  {  };
+GameObject.prototype.update = function( context )  {  };
 
 GameObject.prototype.addComponents = function( key, object ){
         

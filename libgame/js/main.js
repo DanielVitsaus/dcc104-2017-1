@@ -25,7 +25,11 @@ function start(){
                          new Vector2(sizeScreem.width/2,sizeScreem.height/2), 
                          new Vector2(128/2,256/2));
     
-    var ob = new GameObject();
+    var ob = new GameObject();   
+    
+    var c = new Transform();
+    
+    console.log(c);
     
     var x = 1 , y = 0;
     
@@ -44,15 +48,16 @@ function start(){
         
         tra.move( context );   
         tra.limitMove();          
-        tra.draw( context );       
-
+        tra.draw( context );      
+        
     }   
     
     var down = false;
     var contJump = 1;
     
+    
     addEventListener("keydown", function(e){
-       
+        //console.log(e.keyCode);
         if(e.keyCode == 37 || e.keyCode == 65){
             tra.moveToRight = true;
             x = 1;
@@ -63,8 +68,7 @@ function start(){
             
         } else if(e.keyCode == 38 || e.keyCode == 32){           
            
-            if(!down) {                
-                down = true;
+            if(!tra.components["sprite"].animation.isExecuting("jump")) {                
                 tra.jump = true;
                 contJump++;
             }
@@ -81,11 +85,7 @@ function start(){
             
         } else if(e.keyCode == 38 || e.keyCode == 32) {
             tra.jump = false;
-            //down = false;
-            if (Math.trunc(tra.components["transforn"].position.y) == Math.trunc(sizeScreem.height - 64)){
-                down = false;
-                contJump = 1;
-            }
+            down = false;            
         }					
     });
     

@@ -7,11 +7,12 @@ function Player(sXY = new Vector2() , sWH = new Vector2(), dXY = new Vector2(), 
     
     this.components["transforn"].scale = new Vector2(0.5,0.5); 
     this.components["transforn"].position = dXY;
+    //this.components["transforn"].velocity = new Vector2();
     this.moveToRight    = false;
 	this.moveToLeft     = false;
 	this.jump		    = false;
     this.bd = dWH;   
-    
+
     /*
     this.hmax = this.components["transforn"].scale.y * DGRID * (hmax || 20);
 	
@@ -82,7 +83,6 @@ Player.prototype.update = function( context ){
     
 	// se não está pulando, mas é para pular então pula
 	if(!jumping && this.jump) {
-        console.log("Ta aqui");
 		this.jump = false;
 		// Equação de torriceli: v² = v0² + 2adr
 		// dr = hmax --> v = 0
@@ -96,7 +96,7 @@ Player.prototype.update = function( context ){
 		} else {
 			this.components["sprite"].animation.linkAnimations("jump", "idle");
 		}
-		//this.bd.y -= 16;
+		this.bd.y -= 16;
 	}
     
        
