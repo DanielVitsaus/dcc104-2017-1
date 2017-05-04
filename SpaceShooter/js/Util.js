@@ -1,11 +1,13 @@
 "use strict";
 
 
-const DGRID = 16;	
-const EPS  = 0.05;	
-const FPS = 60;		
-const DT = 10.0/FPS;	
-const G = -10;	
+const DGRID = 16;
+const EPS  = 0.05;
+const FPS = 60;
+const DT = 1.0/FPS;
+const G = -10;
+
+var sizeScreem;
 
 function ImageBase() {
 	var data = {};
