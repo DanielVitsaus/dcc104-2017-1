@@ -8,6 +8,8 @@ const DT = 1.0/FPS;
 const G = -10;
 
 var sizeScreem;
+var time;
+var deltaTime = 0;
 
 function ImageBase() {
 	var data = {};

@@ -20,8 +20,8 @@ function Sprite(img, coord, size, dime, imgTH = undefined){
     this.cooldown = 0;
     this.th = 30;	
     
-    this.fatx = 3.0;
-	this.faty = 3.0; 
+    this.fatx = 4.0;
+	this.faty = 4.0; 
 
 }
 
@@ -42,9 +42,9 @@ Sprite.prototype.desenhaBackground = function(ctx){
     ctx.restore();
 };
 
-Sprite.prototype.moveBackground = function(deltaTime){
+Sprite.prototype.moveBackground = function(deltaTime, b){
     
-    if (this.y >= this.size.h){ this.y = -this.size.h; }       
+    if (Math.trunc(this.y) >= sizeScreem.h ){ this.y = -(Math.abs(b.y) + this.size.h) ; }       
     
     this.y = this.y + (this.vy * deltaTime * 10);
 };

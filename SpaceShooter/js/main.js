@@ -1,4 +1,28 @@
-var time;
+(function() {
+    console.log("Daniel");
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame =
+          window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
 
 function start()
 {
@@ -11,10 +35,15 @@ function start()
     bdSheets.add("ini02", "img/inimigo02.png");
     bdSheets.add("meteoro", "img/meteoro.png");
     bdSheets.add("thruster", "img/thruster.png");
+    bdSheets.add("gameover", "img/gameover.jpg");
 
 
-    var deltaTime = 0;
-    var lastTime = (Date.now() /1000);
+    var isFPS = false;
+    var fps = 0;
+    var paused = true;
+    var gameover = false;
+   
+    var lastTime = 0;
     
     var canvas      = document.getElementById("game");
     var context     = canvas.getContext("2d");
@@ -40,41 +69,80 @@ function start()
     back02.vy = 15;
         
     
-    requestAnimationFrame( Update , canvas);
+    window.requestAnimationFrame( Update , canvas );
     
     function Update (t){
         time = t;
-        var now = (Date.now() /1000);
-        deltaTime = now - lastTime;        
-       
-        requestAnimationFrame( Update , canvas);
+        var now = t;
+        deltaTime = (now - lastTime) / 1000;             
+        fps = 1000 / (now - lastTime);
+        
+        window.requestAnimationFrame( Update , canvas);            
+        render(deltaTime);
         
         lastTime = now;
-        render(deltaTime);
     }
 
     function render(deltaTime){
 
-        //context.save();
-            
-            back01.moveBackground(deltaTime);
-            back01.desenhaBackground(context);       
+        //console.log("POS -> ",player.x);
+        //console.log("Delta -> ", deltaTime);
         
-            back02.moveBackground(deltaTime);
-            back02.desenhaBackground(context);    
-        
-            player.desenhar(context);
-            player.limitePlayer();
-            player.mover(deltaTime);
-        
-            context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 -7, sizeScreem.h/2 , 14,35);
+        if (paused){  
+            context.clearRect(0,0, canvas.width,canvas.height);
 
-        //context.restore();
+                back01.moveBackground(deltaTime, back02);
+                back01.desenhaBackground(context);       
+
+                back02.moveBackground(deltaTime,back01);
+                back02.desenhaBackground(context);    
+
+                player.desenhar(context);
+                player.limitePlayer();
+                player.mover(deltaTime);
+
+                context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 -7, sizeScreem.h/2 , 14,35);
+        }
+        else{       
+            context.save()
+                context.translate(canvas.width/2 - 140, canvas.height/2- 100);             
+                    context.font = '80px Helvetica';
+                    context.fillStyle = 'firebrick';//'cornflowerblue';
+                    context.fillText("Paused", 0,0);        
+            context.restore();            
+        }
+        
+        if (gameover){
+            context.save();
+                context.drawImage(bdSheets.get("gameover"), 0,0, 1024,768);
+            
+                context.font = '24px Helvetica';
+                context.fillStyle = 'cornflowerblue';
+                context.fillText("Pressione 'r' para reiniciar!", 10, 760);
+                    
+            context.restore();
+        }
+        
+        if(isFPS){
+            context.save();
+                context.font = '20px Helvetica';
+                context.fillStyle = 'firebrick';
+                context.fillText("FPS -> " + Math.trunc(fps), 10,25); 
+            context.restore();
+        }
     }
 
 
     addEventListener("keydown", function(e){
-
+        
+        if(e.keyCode == 192){
+            isFPS = isFPS ? false : true;  
+        }
+        
+        if (e.keyCode == 80){            
+            paused = paused ? false : true;           
+        }
+       
 		if(e.keyCode == 87 || e.keyCode == 38) {// W
 			player.ay = -5 / deltaTime;
             player.th = 40;
