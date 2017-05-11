@@ -89,7 +89,7 @@ Sprite.prototype.colidiuCom = function (alvo) {
 };
 
 Sprite.prototype.limitePlayer = function(){
-    var top = sizeScreem.h/6;
+    var top = sizeScreem.h/2;
     var left = 0;
     var right = sizeScreem.w - 80;
     var bottom = sizeScreem.h - 90;

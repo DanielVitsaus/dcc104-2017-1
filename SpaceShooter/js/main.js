@@ -51,7 +51,7 @@ function start()
     sizeScreem = new Size(canvas.width, canvas.height);
 
     var player = new Sprite(bdSheets.get("player"),
-                            new Point(sizeScreem.w/2-40, sizeScreem.h/2),
+                            new Point(sizeScreem.w/2-40, sizeScreem.h - 150),
                             new Size(80,80),
                             new Size(256,256),
                             bdSheets.get("thruster"));
@@ -64,6 +64,12 @@ function start()
                        new Point(0, -(1024)),
                        new Size(1024,1024));
     
+    var inimigo = new Enemy(bdSheets.get("ini01"),
+                           new Point(sizeScreem.w - 75, 50),
+                           new Size(50,100),
+                           new Size(128,256));
+    
+    var spawnI = new Spawn(40, context);
 
     back01.vy = 15;
     back02.vy = 15;
@@ -97,11 +103,15 @@ function start()
                 back02.moveBackground(deltaTime,back01);
                 back02.desenhaBackground(context);    
 
+                spawnI.spawnOBJ();
+            
                 player.desenhar(context);
+                //inimigo.desenhar(context);
+                //inimigo.moveZig(deltaTime);
                 player.limitePlayer();
                 player.mover(deltaTime);
 
-                context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 -7, sizeScreem.h/2 , 14,35);
+                //context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 - 4.8, sizeScreem.h/2 + 18 , 10,30);
         }
         else{       
             context.save()
@@ -144,19 +154,21 @@ function start()
         }
        
 		if(e.keyCode == 87 || e.keyCode == 38) {// W
-			player.ay = -5 / deltaTime;
+			player.ay = -8 / deltaTime;
             player.th = 40;
             back01.vy = 25;
             back02.vy = 25;
+            spawnI.vel = 250;
 		} else if(e.keyCode == 65 || e.keyCode == 37) { // A
-			player.ax = -5 / deltaTime;           
+			player.ax = -8 / deltaTime;           
 		} else if(e.keyCode == 83 || e.keyCode == 40) { // S
-			player.ay = 5 / deltaTime;
+			player.ay = 8 / deltaTime;
             player.th = 20;
             back01.vy = 10;
             back02.vy = 10;
+            spawnI.vel = 100;
 		} else if(e.keyCode == 68 || e.keyCode == 39) { // D
-			player.ax = 5 / deltaTime;
+			player.ax = 8 / deltaTime;
 		}
 	});
 
@@ -166,6 +178,7 @@ function start()
             player.th = 30;
             back01.vy = 15;
             back02.vy = 15;
+            spawnI.vel = 180;
 		} else if(e.keyCode == 65 || e.keyCode == 37) { // A
 			player.ax = 0;
 		} else if(e.keyCode == 68 || e.keyCode == 39) { // D
