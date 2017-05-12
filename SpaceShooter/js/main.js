@@ -37,7 +37,7 @@ function start()
     bdSheets.add("thruster", "img/thruster.png");
     bdSheets.add("gameover", "img/gameover.jpg");
 
-
+    
     var isFPS = false;
     var fps = 0;
     var paused = true;
@@ -74,6 +74,7 @@ function start()
     back01.vy = 15;
     back02.vy = 15;
         
+    var tiro = new Shot(bdSheets.get("tiro"), new Point(player.x + 35,player.y + 14), new Size(32,82), new Size(32/3,82/3), -1);
     
     window.requestAnimationFrame( Update , canvas );
     
@@ -103,13 +104,20 @@ function start()
                 back02.moveBackground(deltaTime,back01);
                 back02.desenhaBackground(context);    
 
-                spawnI.spawnOBJ();
+                //spawnI.spawnOBJ();
+            
+                //tiro.desenhaACo(context);
+                //tiro.desenha(context);
+                //tiro.colidiu(player);
             
                 player.desenhar(context);
+                player.desenhaACo(context);
                 //inimigo.desenhar(context);
                 //inimigo.moveZig(deltaTime);
                 player.limitePlayer();
                 player.mover(deltaTime);
+            
+                
 
                 //context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 - 4.8, sizeScreem.h/2 + 18 , 10,30);
         }
@@ -144,6 +152,12 @@ function start()
 
 
     addEventListener("keydown", function(e){
+        
+        
+        if(e.keyCode == 32 && player.timeFire > 2){
+            player.fire();
+            player.timeFire = 0;
+        }
         
         if(e.keyCode == 192){
             isFPS = isFPS ? false : true;  
