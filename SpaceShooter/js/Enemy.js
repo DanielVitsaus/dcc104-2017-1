@@ -10,7 +10,7 @@ function Enemy(img, coord, size, dime, imgTH = undefined){
     this.y = coord.y;
     this.vx = -120;
     this.vy = 60;
-    this.ax = 0;
+    this.d = 1;
     this.ay = 0;
     this.velZIg = 1;
     this.angle = 0;
@@ -23,7 +23,7 @@ function Enemy(img, coord, size, dime, imgTH = undefined){
 
 }
 
-Enemy.prototype.desenhar = function (ctx, deltaTime) {
+Enemy.prototype.desenhar = function (ctx) {
     ctx.save()
         ctx.translate(this.x, this.y);
             if (this.imgTH != undefined){
@@ -33,11 +33,11 @@ Enemy.prototype.desenhar = function (ctx, deltaTime) {
     ctx.restore();
 };
 
-Enemy.prototype.moveZig = function (d) {    
+Enemy.prototype.moveZig = function () {    
   
     
     if (this.y > - 90 ){
-        this.ay += deltaTime * d;
+        this.ay += deltaTime * this.d;
         this.x = ( Math.sin(this.ay * this.velZIg) * 445 ) + 480  ;
     }
     
@@ -81,4 +81,19 @@ Enemy.prototype.foraTelaLinha = function(){
     var bottom = sizeScreem.h + 400;
     if (this.y > bottom ){ return true; }
 
+};
+
+Enemy.prototype.desenhaACo = function(ctx){
+    
+    ctx.save();
+        ctx.strokeStyle = 'firebrick';
+    
+        if (this.size.w - 10 == 40){
+            ctx.strokeRect(this.x+5, this.y+10, this.size.w -10, this.size.h-20);
+        }else{
+             ctx.strokeRect(this.x+15, this.y+10, this.size.w-30, this.size.h-20);
+        }       
+        
+        ctx.fillRect(this.x + (this.size.w), this.y, 4, 4);
+    ctx.restore();
 };

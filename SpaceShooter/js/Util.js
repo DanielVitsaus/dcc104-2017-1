@@ -10,6 +10,8 @@ const G = -10;
 var sizeScreem;
 var time;
 var deltaTime = 0;
+var paused = true;
+var gameover = false;
 
 function ImageBase() {
 	var data = {};

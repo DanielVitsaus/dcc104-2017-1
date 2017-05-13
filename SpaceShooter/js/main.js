@@ -29,6 +29,7 @@ function start()
     bdSheets.add("background", "img/back.png");
     bdSheets.add("player", "img/player.png");
     bdSheets.add("tiro", "img/tiro2.png");
+    bdSheets.add("tiroini", "img/tiroIMG2.png");
     bdSheets.add("missel", "img/missel.png");
     bdSheets.add("bomba", "img/bomba.png");
     bdSheets.add("ini01", "img/inimigo01.png");
@@ -39,9 +40,7 @@ function start()
 
     
     var isFPS = false;
-    var fps = 0;
-    var paused = true;
-    var gameover = false;
+    var fps = 0;    
    
     var lastTime = 0;
     
@@ -69,12 +68,20 @@ function start()
                            new Size(50,100),
                            new Size(128,256));
     
-    var spawnI = new Spawn(40, context);
+    var level = new Level(context);
+    
+    var o = new Enemy(bdSheets.get("ini01"),
+                           new Point(sizeScreem.w/2, 400),
+                           new Size(50,100),
+                           new Size(128,256));
 
     back01.vy = 15;
     back02.vy = 15;
+    
+    console.log(o.dime);
+    console.log(o.size);
         
-    var tiro = new Shot(bdSheets.get("tiro"), new Point(player.x + 35,player.y + 14), new Size(32,82), new Size(32/3,82/3), -1);
+    var tiro = new Shot(bdSheets.get("tiroini"), new Point(sizeScreem.w/2 + 19, sizeScreem.h/2 + 83), new Size(32,82), new Size(32/3,82/3), -1);
     
     window.requestAnimationFrame( Update , canvas );
     
@@ -104,22 +111,25 @@ function start()
                 back02.moveBackground(deltaTime,back01);
                 back02.desenhaBackground(context);    
 
-                //spawnI.spawnOBJ();
+                level.desenhaLeve(context, player);
             
                 //tiro.desenhaACo(context);
                 //tiro.desenha(context);
-                //tiro.colidiu(player);
+                //tiro.colidiu(o);
+                
+                //tiro.x = player.x + 50;
+                //tiro.y = player.y - 100;
+                
+                //o.desenhar(context);
+                //o.desenhaACo(context);
+                //level.fireIni(o);
+                //level.shotsIni[0].desenha(context);
+                //level.shotsIni[0].moveShot();
             
                 player.desenhar(context);
-                player.desenhaACo(context);
-                //inimigo.desenhar(context);
-                //inimigo.moveZig(deltaTime);
                 player.limitePlayer();
                 player.mover(deltaTime);
             
-                
-
-                //context.drawImage(bdSheets.get("tiro"), 0, 0 , 32,82, sizeScreem.w/2 - 4.8, sizeScreem.h/2 + 18 , 10,30);
         }
         else{       
             context.save()
@@ -151,12 +161,12 @@ function start()
     }
 
 
-    addEventListener("keydown", function(e){
-        
-        
-        if(e.keyCode == 32 && player.timeFire > 2){
-            player.fire();
-            player.timeFire = 0;
+    addEventListener("keydown", function(e){        
+                
+        if(e.keyCode == 32 && level.timeFire > 2){
+            console.log("FIRE");
+            level.fire(player);
+            level.timeFire = 0;
         }
         
         if(e.keyCode == 192){
@@ -166,23 +176,27 @@ function start()
         if (e.keyCode == 80){            
             paused = paused ? false : true;           
         }
+        
+        if (e.keyCode == 82 && gameover){            
+            location.reload();       
+        }
        
 		if(e.keyCode == 87 || e.keyCode == 38) {// W
-			player.ay = -8 / deltaTime;
+			player.ay = -10 / deltaTime;
             player.th = 40;
             back01.vy = 25;
             back02.vy = 25;
-            spawnI.vel = 250;
+            //spawnI.vel = 250;
 		} else if(e.keyCode == 65 || e.keyCode == 37) { // A
-			player.ax = -8 / deltaTime;           
+			player.ax = -10 / deltaTime;           
 		} else if(e.keyCode == 83 || e.keyCode == 40) { // S
-			player.ay = 8 / deltaTime;
+			player.ay = 10 / deltaTime;
             player.th = 20;
             back01.vy = 10;
             back02.vy = 10;
-            spawnI.vel = 100;
+            //spawnI.vel = 100;
 		} else if(e.keyCode == 68 || e.keyCode == 39) { // D
-			player.ax = 8 / deltaTime;
+			player.ax = 10 / deltaTime;
 		}
 	});
 
@@ -192,7 +206,7 @@ function start()
             player.th = 30;
             back01.vy = 15;
             back02.vy = 15;
-            spawnI.vel = 180;
+            //spawnI.vel = 180;
 		} else if(e.keyCode == 65 || e.keyCode == 37) { // A
 			player.ax = 0;
 		} else if(e.keyCode == 68 || e.keyCode == 39) { // D

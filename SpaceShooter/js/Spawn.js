@@ -21,16 +21,16 @@ function Spawn(quantOBJ , ctx){
 Spawn.prototype.spawnOBJ = function()
 {    
     if (this.objs.length < 1){
-        this.indexSpawn = Math.floor(Math.random() * (3 - 1) + 1 ) ;
+        this.indexSpawn = 1;//Math.floor(Math.random() * (3 - 1) + 1 ) ;
         console.log(this.indexSpawn);
-        this.instanciaOBJ();
+        //this.instanciaOBJ();
 		this.sp = true;
     }
     
     switch(this.indexSpawn){
     
         case 1:
-			this.spawnZigDiag(-1,-1, false);
+			this.spawnZigDiag(-1,1, false);
             break;
         case 2:
 			//this.spawnZigDiag(0,-1, false);
@@ -53,26 +53,38 @@ Spawn.prototype.spawnOBJ = function()
 
 Spawn.prototype.instanciaOBJ = function(){
     
-    for (var i = 0; i < this.quantOBJ ; i++){
-        var o = new Enemy(bdSheets.get("ini01"),
+    var iminigo1 = true;
+    
+    for (var i = 0; i < this.quantOBJ ; i++){          
+        
+        if(iminigo1){
+            var o = new Enemy(bdSheets.get("ini01"),
                            new Point(sizeScreem.w - 75, -110),
                            new Size(50,100),
                            new Size(128,256));
-        
-        var o2 = new Enemy(bdSheets.get("ini02"),
+            
+            this.objs.push(o);
+            iminigo1 = false;
+        }
+        else{
+            var o2 = new Enemy(bdSheets.get("ini02"),
                            new Point(sizeScreem.w - 75, -110),
                            new Size(100,100),
                            new Size(256,256));
-        this.objs.push(o);
-        this.objs2.push(o2);
+            iminigo1 = true;
+            this.objs.push(o2);
+        }
+        
+        
     }    
     console.log(this.objs);
 };
 
 Spawn.prototype.spawnZigDiag = function(p , d, diag){
+    
+    var iminigo1 = true;
           
-    if (this.sp){
-        
+    if (this.sp){        
 		this.vec.x = 120 * d;
         if (diag){
             this.vec.y = this.vec.x * d;
@@ -90,46 +102,55 @@ Spawn.prototype.spawnZigDiag = function(p , d, diag){
 			this.x = sizeScreem.w;
 		}
 		
-        for (var i = 0; i < this.objs.length; i++){
+        for (var i = 0; i < this.quantOBJ ; i++){
+            console.log("Cria");
+             if(iminigo1){
+                var o = new Enemy(bdSheets.get("ini01"),
+                               new Point(sizeScreem.w - 75, -110),
+                               new Size(50,100),
+                               new Size(128,256));
+
+                this.objs.push(o);
+                iminigo1 = false;
+            }
+            else{
+                var o2 = new Enemy(bdSheets.get("ini02"),
+                               new Point(sizeScreem.w - 75, -110),
+                               new Size(100,100),
+                               new Size(256,256));
+                iminigo1 = true;
+                this.objs.push(o2);
+            }
+            
             this.y -= 180;
             if (!diag){                
                 this.objs[i].y = this.y;           
-                this.objs2[i].y = this.y + 80;           
             }else{
                 this.objs[i].y = this.y ; 
                 this.objs[i].x = this.x + ( (i+1) * 60 ) * d ;
-                this.objs2[i].y = this.y ; 
-                this.objs2[i].x = this.x + ( (i+1) * 60 ) * d ;
             } 
             
             this.objs[i].vx = this.vec.x;    
             this.objs[i].vy = this.vec.y;
-            this.objs2[i].vx = this.vec.x;    
-            this.objs2[i].vy = this.vec.y;           
         }
         this.x = 0;
         this.y = 0;
 		this.sp = false;
     }
   
-    
+    // DESENHA E MOVIMENTA
     for (var i = 0; i < this.objs.length; i++){       
         
         this.objs[i].desenhar(this.ctx);
-        this.objs2[i].desenhar(this.ctx);
 		if (!diag){           
-           this.objs[i].moveZig(d);	         
-           this.objs2[i].moveZig(d * -1);	         
+           this.objs[i].moveZig();	         
             
 		}else{
 			this.objs[i].moveDiag(deltaTime);
-			this.objs2[i].moveDiag(deltaTime);
 		}
 		if(this.objs[i].foraTela()){
-			var o = this.objs.splice(i,1);            
-			var o2 = this.objs2.splice(i,1);            
-            delete o;
-            delete o2;
+            this.objs[i].d *= -1;
+            this.objs[i].y = (this.objs[i].y + 135 + i ) * -1.3;   
 		}else{
             
         }        
@@ -139,51 +160,57 @@ Spawn.prototype.spawnZigDiag = function(p , d, diag){
 
 Spawn.prototype.spawnLinha = function(){   
     
+    var iminigo1 = true;
+    
     if (this.sp){
-		var xa = 30;
-		var xa2 = 50;
-		var ya = -200;
+		var xa = 50;
 		this.x = 0;		
 		this.y = -100;
         
-        for (var i = 0; i < this.quantOBJ; i++){            
+        for (var i = 0; i < this.quantOBJ; i++){
+            console.log("Cria");
+            if(iminigo1){
+                var o = new Enemy(bdSheets.get("ini01"),
+                               new Point(sizeScreem.w - 75, -110),
+                               new Size(50,100),
+                               new Size(128,256));
+
+                this.objs.push(o);
+                iminigo1 = false;
+            }
+            else{
+                var o2 = new Enemy(bdSheets.get("ini02"),
+                               new Point(sizeScreem.w - 75, -110),
+                               new Size(100,100),
+                               new Size(256,256));
+                iminigo1 = true;
+                this.objs.push(o2);
+            }
 			           
 			if (xa >= sizeScreem.w - 80){
-				this.y -= 200;
-				xa = 30;
-			}
-            if (xa2 >= sizeScreem.w - 80){
-				ya -= 200;
-				xa2 = 50;
-			}
+				this.y -= 100;
+				xa = 40;
+			}            
            
 			this.objs[i].x = xa;
-			this.objs2[i].x = xa2;
             this.objs[i].y = this.y; 
-            this.objs2[i].y = ya; 
-            xa += 100; 
-            xa2 += 100; 
+            xa += this.objs[i].size.w + 30; 
         }
 		this.sp = false;
     }
     this.y = 0;
 	
+    // DESENHA E MOVIMENTA
 	for (var i = 0; i < this.objs.length; i++){
         this.objs[i].desenhar(this.ctx);
+        this.objs[i].desenhaACo(this.ctx);
         this.objs[i].velZIg = 3;
         this.objs[i].vy = this.vel;
 		this.objs[i].moveD(deltaTime);
-        
-        this.objs2[i].desenhar(this.ctx);
-        this.objs2[i].velZIg = 3;
-        this.objs2[i].vy = this.vel;
-		this.objs2[i].moveD(deltaTime);
-        
+                
 		if(this.objs[i].foraTelaLinha()){
 			var o = this.objs.splice(i,1);
-			var o2 = this.objs2.splice(i,1);
             delete o;
-            delete o2;
 		}
 	}
     //3ti7x1mbdj!

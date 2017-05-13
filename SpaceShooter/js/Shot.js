@@ -10,7 +10,7 @@ function Shot(img, coord, size, dime, d){
     this.x = coord.x;
     this.y = coord.y;
     this.vx = 0;
-    this.vy = 400 * d;
+    this.vy = 30 * d;
     this.ax = 0;
     this.ay = 20;
     this.limiteTopo = 50;
@@ -43,7 +43,7 @@ Shot.prototype.foraTela = function(){
         
     }  
     */
-    if (this.y < -50){ return true; }
+    if (this.y < 20 * this.d){ return true; }
     
 }
 
@@ -58,21 +58,30 @@ Shot.prototype.colidiu = function(alvo){
         botoom = this.y + this.dime.h, 
         alvoB = alvo.y + (alvo.size.h - 10);
     
-    /*
-    if(dir > alvoEsq && alvoTop > top && alvoTop < botoom && esq < alvoEsq
-        || dir > alvoEsq && alvoB < botoom && alvoB > top && esq < alvoEsq
-        || esq < alvoDir && alvoTop > top && alvoTop < botoom && dir > alvoDir) { 
-        console.log("Alvo -> ", alvo.x); 
-        console.log("Tiro -> ", dir); 
-        console.log("Deu"); 
-        return true;}
-    */
+    if (alvo.size.w - 10 == 40){
+        alvoEsq = alvo.x + 4;
+        alvoDir = alvo.x + (alvo.size.w - 0);      
+        alvoTop = alvo.y + 6;    
+        alvoB = alvo.y + (alvo.size.h - 10);
+    }else{
+        //console.log("Deu"); 
+        alvoEsq = alvo.x + 10;
+        alvoDir = alvo.x + (alvo.size.w - 15);      
+        alvoTop = alvo.y + 10;    
+        alvoB = alvo.y + (alvo.size.h - 8);
+    }  
     
-    if(top < alvoB && esq > alvoEsq && dir < alvoDir && alvoB < botoom) { 
-        console.log("Alvo -> ", alvo.x); 
-        console.log("Tiro -> ", dir); 
-        console.log("Deu"); 
-        return true;}
+    //lado superio esquedo do alvo e lado inferior direito do this.
+    if(dir > alvoEsq && alvoTop < botoom && dir < alvoDir && alvoB > botoom) { return true; }
+    
+    //lado superio direito do alvo e lado inferior esquerdo do this.
+    if(esq < alvoDir && alvoTop < botoom && dir > alvoEsq && alvoB > botoom) { return true; }
+    
+     //lado inferior esquero do alvo e lado superior direito do this.
+    if(top < alvoB && dir > alvoEsq && dir < alvoDir && alvoB < botoom) { return true; }
+    
+    //lado inferior direito do alvo e lado superior esquerdo do this.
+    if(top < alvoB && esq < alvoDir && esq > alvoEsq && alvoB < botoom) { return true; }   
     
 }
 

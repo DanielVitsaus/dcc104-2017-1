@@ -14,14 +14,14 @@ function Sprite(img, coord, size, dime, imgTH = undefined){
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
-    this.timeFire = 0;
+    
     this.angle = 0;
     this.vang = 0;
     this.cooldown = 0;
     this.th = 30;	
     
-    this.fatx = 4.0;
-	this.faty = 4.0; 
+    this.fatx = 3.5;
+	this.faty = 3.5; 
     
     this.shots = [];
     this.lShot = 0;
@@ -35,17 +35,8 @@ Sprite.prototype.desenhar = function (ctx) {
                 ctx.drawImage(this.imgTH, 0, 0, 64, 256, 35.5, 64, 10, Math.abs( ( Math.cos( 16 * time * Math.PI/1000) ) * this.th) );           
             }
             ctx.drawImage(this.img, 0, 0, this.dime.w, this.dime.h, 0, 0, this.size.w, this.size.h);  
-    ctx.restore();
-    this.timeFire += deltaTime * 10;
+    ctx.restore();    
     
-    for(var i = 0 ; i < this.lShot; i++){
-            this.shots[i].desenha(ctx)
-            this.shots[i].moveShot();
-            if (this.shots[i].foraTela()){
-                var fi = this.shots.splice(i,1);
-                this.lShot = this.shots.length;
-            }
-        }
 };
 
 Sprite.prototype.desenhaBackground = function(ctx){
@@ -123,8 +114,4 @@ Sprite.prototype.desenhaACo = function(ctx){
     ctx.restore();
 };
 
-Sprite.prototype.fire = function(){
-    var f = new Shot(bdSheets.get("tiro"), new Point(this.x + 35, this.y + 14), new Size(32,82), new Size(32/3,82/3), -1 );
-    this.shots.push(f);
-    this.lShot = this.shots.length;    
-}
+
