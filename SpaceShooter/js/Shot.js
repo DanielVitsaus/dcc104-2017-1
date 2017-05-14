@@ -1,4 +1,4 @@
-
+"use strict";
 
 function Shot(img, coord, size, dime, d){
     
@@ -24,29 +24,22 @@ Shot.prototype.desenha = function(ctx){
     ctx.restore();
 };
 
-Shot.prototype.moveShot = function(){
-    
-    //this.vy = this.vy + this.ay * deltaTime;
+Shot.prototype.moveShot = function(){    
     
     this.y = this.y + this.vy * deltaTime;
 };
 
 Shot.prototype.foraTela = function(){
-    
-    /*
-    if (this.d > 0){
-        this.limiteTopo *= d;
-        if (this.y > this.limiteTopo){ return true; }
-    }
-    else{
-        this.limiteTopo *= d;
-        
-    }  
-    */
-    if (this.y < 20 * this.d){ return true; }
+   
+    if (this.y < -20 ){ return true; }
     
 }
 
+Shot.prototype.foraTelaIn = function(){
+   
+    if (this.y > 780){ return true; }
+    
+}
 Shot.prototype.colidiu = function(alvo){
     
     var esq = this.x,

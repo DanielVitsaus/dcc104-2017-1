@@ -1,3 +1,5 @@
+"use strict";
+
 function Enemy(img, coord, size, dime, imgTH = undefined){
 
     this.img = img;

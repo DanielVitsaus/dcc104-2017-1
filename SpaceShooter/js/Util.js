@@ -1,6 +1,5 @@
 "use strict";
 
-
 const DGRID = 16;
 const EPS  = 0.05;
 const FPS = 60;

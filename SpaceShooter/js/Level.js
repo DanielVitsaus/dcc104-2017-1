@@ -1,3 +1,5 @@
+"use strict";
+
 function Level(context){
     
     this.spawnI = new Spawn(20, context);
@@ -8,16 +10,17 @@ function Level(context){
     this.qInimigo = 0;
     this.timeFire = 0;
     this.timeFireIni = 0;
-    this.dacoP = 200;
-    //this.spawnI.quantOBJ = 50;
+    this.dacoP = 250;
+    this.pontos = 0;
     
 }
 
 Level.prototype.desenhaLeve = function(ctx, pl){
     
     this.timeFire += deltaTime * 15;    
-    this.timeFireIni += deltaTime * 20;    
+    this.timeFireIni += deltaTime * 10;    
     
+    this.pontosP(ctx);
     this.playerDano(ctx);
     
     this.qInimigo = this.spawnI.objs.length;
@@ -25,17 +28,18 @@ Level.prototype.desenhaLeve = function(ctx, pl){
     
     for (var j = 0; j < this.spawnI.objs.length; j++){
         
-        if (Math.trunc(pl.x - 10) <= Math.trunc(this.spawnI.objs[j].x) 
+        if (this.spawnI.objs[j].y > 0 && Math.trunc(pl.x - 10) <= Math.trunc(this.spawnI.objs[j].x) 
             && Math.trunc(pl.x + 25) >= Math.trunc(this.spawnI.objs[j].x)
             && this.spawnI.objs[j].y < pl.y
-            && this.timeFireIni > 2){
+            && this.timeFireIni > 2){           
             
             this.fireIni(this.spawnI.objs[j]);            
             this.timeFireIni = 0;
         }
         for (var i = 0; i < this.shotsIni.length; i++){
             
-            if (this.shotsIni[i] !== undefined && this.shotsIni[i].foraTela()){
+            if (this.shotsIni[i] !== undefined && this.shotsIni[i].foraTelaIn()){
+                //console.log("Fora");
                 this.shotsIni.splice(i,1);
             }
             
@@ -45,14 +49,21 @@ Level.prototype.desenhaLeve = function(ctx, pl){
             }
             else if(this.shotsIni[i] !== undefined){
                 this.shotsIni.splice(i,1);
-                this.dacoP -= 5;
+                this.dacoP -= 10;
                 if (this.dacoP <= 0){
                     gameover = true;
+                    paused = paused ? false : true;   
+                    if (!paused){
+                        musica.pause();
+                        musica.src = "audio/death.ogg";
+                        musica.play();
+                    }                   
                 }
             }
             
         }
-          
+        
+        //Tiro do player
         for(var i = 0 ; i < this.shots.length; i++){            
             
             if (this.shots[i].foraTela()){
@@ -69,7 +80,9 @@ Level.prototype.desenhaLeve = function(ctx, pl){
                 this.lShot = this.shots.length;
                 
                 this.spawnI.objs[j].d *= -1;
-                this.spawnI.objs[j].y = (this.spawnI.objs[j].y + 135 + j) * -2.3; ;
+                this.spawnI.objs[j].y = (this.spawnI.objs[j].y + 135 + j) * -2.3;
+                
+                this.pontos++;
             }
             
         }
@@ -81,7 +94,10 @@ Level.prototype.fire = function(playerCoord){
     
     var tiro = new Shot(bdSheets.get("tiro"), new Point(playerCoord.x + 35, playerCoord.y + 14), new Size(32,82), new Size(32/3,82/3), -1 );
     this.shots.push(tiro);
-    this.lShot = this.shots.length;    
+    this.lShot = this.shots.length;  
+    if(audio){
+        audio.play("tiro", 0.5);
+    }
 }
 
 Level.prototype.fireIni = function(playerCoord){
@@ -92,25 +108,45 @@ Level.prototype.fireIni = function(playerCoord){
     if (playerCoord.size.w == 100){
         x = playerCoord.x + 44.5;
         y = playerCoord.y + 56;
+        var tiro = new Shot(bdSheets.get("tiroini"), new Point(x , y ), new Size(32,82), new Size(32/3,82/3), 1 );   
+    
+        this.shotsIni.push(tiro);
+        this.lShotIni = this.shotsIni.length; 
+        if(audio){
+           audio.play("tiroIN", 0.5);
+        }
     }
     else{
         x = playerCoord.x + 19;
         y = playerCoord.y + 83;
-    }
+        var tiro = new Shot(bdSheets.get("tiroini"), new Point(x , y ), new Size(32,82), new Size(32/3,82/3), 1 );   
     
-    var tiro = new Shot(bdSheets.get("tiroini"), new Point(x , y ), new Size(32,82), new Size(32/3,82/3), 1 );   
+        this.shotsIni.push(tiro);
+        this.lShotIni = this.shotsIni.length; 
+        if(audio){
+            audio.play("tiroIN", 0.5);
+        }
+    }      
     
-    this.shotsIni.push(tiro);
-    this.lShotIni = this.shotsIni.length;    
 };
 
 Level.prototype.playerDano = function(ctx){
     
     ctx.save();
         ctx.strokeStyle = "white";
-        ctx.strokeRect(10,10 , 204,12);
+        ctx.strokeRect(30,20 , 254,14);
         ctx.fillStyle = "red";
-        ctx.fillRect(12,12 , this.dacoP,8);        
+        ctx.fillRect(32 ,22 , this.dacoP,10);        
     ctx.restore();
     
+}
+
+Level.prototype.pontosP = function(ctx){
+    
+    ctx.save();
+        ctx.drawImage(bdSheets.get("morto"), 910, 15, 30, 30);
+        ctx.fillStyle = "white";
+        ctx.font = "24px serif";
+        ctx.fillText(": " + this.pontos, 950, 38);    
+    ctx.restore();
 }

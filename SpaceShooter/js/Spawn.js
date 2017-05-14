@@ -1,3 +1,5 @@
+"use strict";
+
 function Spawn(quantOBJ , ctx){
     
     this.objs = [];
@@ -22,7 +24,7 @@ Spawn.prototype.spawnOBJ = function()
 {    
     if (this.objs.length < 1){
         this.indexSpawn = 1;//Math.floor(Math.random() * (3 - 1) + 1 ) ;
-        console.log(this.indexSpawn);
+        //console.log(this.indexSpawn);
         //this.instanciaOBJ();
 		this.sp = true;
     }
@@ -102,8 +104,7 @@ Spawn.prototype.spawnZigDiag = function(p , d, diag){
 			this.x = sizeScreem.w;
 		}
 		
-        for (var i = 0; i < this.quantOBJ ; i++){
-            console.log("Cria");
+        for (var i = 0; i < this.quantOBJ ; i++){            
              if(iminigo1){
                 var o = new Enemy(bdSheets.get("ini01"),
                                new Point(sizeScreem.w - 75, -110),
@@ -210,20 +211,7 @@ Spawn.prototype.spawnLinha = function(){
                 
 		if(this.objs[i].foraTelaLinha()){
 			var o = this.objs.splice(i,1);
-            delete o;
+            //delete o;
 		}
 	}
-    //3ti7x1mbdj!
 };
-
-/*
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function demo(i) {  
-  await sleep(500);  
-    this.objs[i].moveZig(deltaTime);
-}
-*/
