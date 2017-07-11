@@ -4,13 +4,19 @@ body {
 	color: #DDD;
 }
 #container {
-	width: 700px;
-    height: 450px;
-	margin: 40px auto auto auto;
+	width: 800px;
+	margin: 0 auto;
 	text-align: center;
 	background: #111;
 	padding: 1px;
 }
+
+#container canvas {
+	background: #ffffff;
+	background-size: 650px 450px;
+	box-shadow: 5px 5px 5px black;
+}
+
 #container p {
 	font-size: 24px;
 }
