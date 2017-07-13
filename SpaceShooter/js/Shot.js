@@ -76,6 +76,7 @@ Shot.prototype.colidiu = function(alvo){
     //lado inferior direito do alvo e lado superior esquerdo do this.
     if(top < alvoB && esq < alvoDir && esq > alvoEsq && alvoB < botoom) { return true; }   
     
+    return false;
 }
 
 Shot.prototype.desenhaACo = function(ctx){

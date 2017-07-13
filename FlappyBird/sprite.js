@@ -42,12 +42,50 @@ function Sprite(coord, size, theta, url) {
 	
 	this.collision = function(pilastraCima , pilastraBaixo)
 	{
-		if (  ((this.coord.y - (this.size.h/2) + 4 ) < ( (pilastraCima.coord.y) + pilastraCima.size.w)) &&  (this.coord.x + this.size.w/2 - 4) > (pilastraCima.coord.x)) {return true;}
         
-		if (  ((this.coord.y - this.size.h/2 + 4) < ( (pilastraCima.coord.y) + pilastraCima.size.w)) &&  ((this.coord.x - this.size.w/2 + 4 < pilastraCima.coord.x + pilastraCima.size.h) && ( (this.coord.x - this.size.w/2 > pilastraCima.coord.x)) ) ) {return true;}
-        
-		if ( (this.coord.y + this.size.h/2 - 4) > (pilastraBaixo.coord.y) &&  (this.coord.x + this.size.w/2 - 4) > (pilastraCima.coord.x)){return true;}
+        var pilastraCima_EQD = pilastraCima.coord.x,
+            pilastraBaixo_EQD = pilastraBaixo.coord.x,
+            pilastraCima_DIR = pilastraCima.coord.x + 60,
+            pilastraBaixo_DIR = pilastraBaixo.coord.x + 60,
+            pilastraCima_BAIXO = pilastraCima.coord.y + 300,
+            pilastraBaixo_CIMA = pilastraBaixo.coord.y,
+            pilastraCima_CIMA = pilastraCima.coord.y,
+            pilastraBaixo_BAIXO = pilastraBaixo.coord.y + 300,
+            esq = this.coord.x,
+            dir = this.coord.x + this.size.w,
+            top = this.coord.y,            
+            botoom = this.coord.y + this.size.h;
+            
+            
+        //lado superio esquedo do alvo e lado inferior direito do this.
+        if(dir > pilastraCima_EQD && pilastraCima_CIMA < botoom && dir < pilastraCima_DIR && pilastraCima_BAIXO > botoom) { return true; }
 
+        //lado superio direito do alvo e lado inferior esquerdo do this.
+        if(esq < pilastraCima_DIR && pilastraCima_CIMA < botoom && dir > pilastraCima_EQD && pilastraCima_BAIXO > botoom) { return true; }
+
+         //lado inferior esquero do alvo e lado superior direito do this.
+        if(top < pilastraCima_BAIXO && dir > pilastraCima_EQD && dir < pilastraCima_DIR && pilastraCima_BAIXO < botoom) { return true; }
+
+        //lado inferior direito do alvo e lado superior esquerdo do this.
+        if(top < pilastraCima_BAIXO && esq < pilastraCima_DIR && esq > pilastraCima_EQD && pilastraCima_BAIXO < botoom) { return true; }   
+        
+        
+        
+        
+        //lado superio esquedo do alvo e lado inferior direito do this.
+        if(dir > pilastraBaixo_EQD && pilastraBaixo_CIMA < botoom && dir < pilastraBaixo_DIR && pilastraBaixo_BAIXO > botoom) { return true; }
+
+        //lado superio direito do alvo e lado inferior esquerdo do this.
+        if(esq < pilastraBaixo_DIR && pilastraBaixo_CIMA < botoom && dir > pilastraBaixo_EQD && pilastraBaixo_BAIXO > botoom) { return true; }
+
+         //lado inferior esquero do alvo e lado superior direito do this.
+        if(top < pilastraBaixo_BAIXO && dir > pilastraBaixo_EQD && dir < pilastraBaixo_DIR && pilastraBaixo_BAIXO < botoom) { return true; }
+
+        //lado inferior direito do alvo e lado superior esquerdo do this.
+        if(top < pilastraBaixo_BAIXO && esq < pilastraBaixo_DIR && esq > pilastraBaixo_EQD && pilastraBaixo_BAIXO < botoom) { return true; }   
+        
+        
+        
 		return false;
 	}
     

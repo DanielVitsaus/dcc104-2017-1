@@ -24,9 +24,9 @@ var pontosBool = new Array(10);
 
 
 function start() {
-    audio.load("pontos", "/audio/ping_ping.mp3");
-    audio.load("gameover", "/audio/GameOver.mp3");
-    musica.src = "/audio/Audiomachi.mp3";
+    audio.load("pontos", "audio/ping_ping.mp3");
+    audio.load("gameover", "audio/GameOver.mp3");
+    musica.src = "audio/Audiomachi.mp3";
     musica.loop = true;
     musica.autoplay = true;
     
