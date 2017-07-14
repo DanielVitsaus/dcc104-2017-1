@@ -1,7 +1,7 @@
 function Text(font, size, rgb) {
 	this.font = font 	|| "Verdana";
 	this.size = size 	|| 24;
-	this.color = rgb 	|| "#FFF";
+	this.color = rgb 	|| "#000  " ;
 	
 	this.raster = function(ctx, text, x, y) {
 		ctx.font = "" + this.size + "px " + this.font;
