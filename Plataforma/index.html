@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+         
+        <script type="text/javascript" src="js/Animation2.js"></script>
+        <script type="text/javascript" src="js/Vector2.js"></script>  
+        <script type="text/javascript" src="js/Transform.js"></script>
+        <script type="text/javascript" src="js/Sprite2.js"></script>
+        <script type="text/javascript" src="js/Util.js"></script> 
+        <script type="text/javascript" src="js/Control.js"></script>         
+        <script type="text/javascript" src="js/Collision.js"></script>              
+        <script type="text/javascript" src="js/Map.js"></script>              
+        <script type="text/javascript" src="js/GameObject.js"></script>              
+        <script type="text/javascript" src="js/Player.js"></script>
+        <script type="text/javascript" src="js/main.js"></script> 
+        
+        
+         <script language="JavaScript">
+                function alerta(){
+                      var w = window,
+                          d = document,
+                          e = d.documentElement,
+                          g = d.getElementsByTagName('body')[0],
+                          x = w.innerWidth  || e.clientWidth  || g.clientWidth,
+                          y = w.innerHeight || e.clientHeight || g.clientHeight;
+                                          
+                    
+                      document.getElementById("game").width = x - (x * 0.02);
+                      document.getElementById("game").height = y - (y * 0.025);
+                                                             
+                  }
+            </script>
+        
+    </head>
+
+    <body onLoad="start(); alerta();">
+        
+        <div id="container">
+			<canvas id="game" >
+				Seu navegador nao tem suporte ao canvas!
+			</canvas>		
+		</div> 
+        
+    </body>
+
+</html>
