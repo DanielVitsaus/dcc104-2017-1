@@ -21,6 +21,7 @@ function Map(rows, collumns) {
     
     console.log(this.indexPosPl);
     console.log(this.cellsIt);
+    
   for (var r = 0; r < rows; r++) {
       
     this.cells[r] = [];

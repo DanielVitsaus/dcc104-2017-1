@@ -8,8 +8,9 @@ function start(){
     sheets.add("idle", "img/RobotBoyIdleSprite.png");
     sheets.add("jump", "img/RobotBoyJumpSprite.png");
     sheets.add("background", "img/back.png");
-    sheets.add("chao", "img/p1.png");
+    sheets.add("chao", "img/chao.png");
     
+    sheets.print();
     
     var canvas      = document.getElementById("game");
     var context     = canvas.getContext("2d");    
@@ -26,7 +27,9 @@ function start(){
     
     var c = new Transform();
     
-    var mapa = new Map(sizeScreem.width/12,sizeScreem.height/12);
+    console.log("Www-> " + ( Math.sqrt(sizeScreem.height)) + " Hhh-> " + (  Math.sqrt(sizeScreem.width) ) );
+    
+    var mapa = new Map(Math.sqrt(sizeScreem.height),Math.sqrt(sizeScreem.width));
     
     console.log(c);
     
