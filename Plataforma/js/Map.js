@@ -1,25 +1,33 @@
 function Map(rows, collumns) {
     
-    this.SIZE_W = Math.trunc(collumns) + 1;
-    this.SIZE_H = Math.trunc(rows) + 1;
-    this.quat_R = Math.trunc (sizeScreem.height/ rows) +1;
-    this.quat_C = Math.trunc (sizeScreem.width/ collumns) + 1;
+    this.SIZE_W = 64;//Math.trunc(collumns) + 1;
+    this.SIZE_H = 36;//Math.trunc(rows) + 1;
+    this.quat_R = 20;//Math.trunc (sizeScreem.height/ rows) +1;
+    this.quat_C = 20;//Math.trunc (sizeScreem.width/ collumns) + 1;
     this.enemies = [];
     
-    this.cells = [];  
+    this.cells = [ [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] ];  
     
-    for (var r = 0; r < this.quat_R ; r++) {
-      
-        this.cells[r] = [];
-      
-        for (var c = 0; c < this.quat_C; c++) {           
-            this.cells[r][c] = {e: 0, x: 0, y: 0};
-            if (r  == this.quat_R - 1){
-                this.cells[r][c] = {e: 1, x: 0, y: 0};;
-                console.log(this.quat_R);
-            }
-        }
-    }
+    
     
     console.log(this.SIZE_W);
     console.log(this.SIZE_H);
@@ -30,13 +38,14 @@ Map.prototype.desenhar = function (ctx) {
     for (var r = 0; r < this.cells.length; r++) {      
         for (var c = 0; c < this.cells[0].length; c++) {
         
-            if (this.cells[r][c].e == 1){
+            if (this.cells[r][c] == 1){
                 ctx.drawImage(sheets.get("chao"), c * this.SIZE_W, r * this.SIZE_H, this.SIZE_W, this.SIZE_W);
+                //console.log(r * this.SIZE_H);
             }
       
             ctx.strokeStyle = 'green';
-            this.cells[r][c].x = c*this.SIZE_W;
-            this.cells[r][c].y = r*this.SIZE_H;
+            //this.cells[r][c].x = c*this.SIZE_W;
+            //this.cells[r][c].y = r*this.SIZE_H;
             ctx.strokeRect(c*this.SIZE_W, r*this.SIZE_H, this.SIZE_W, this.SIZE_H);
         }
     }   

@@ -27,7 +27,7 @@ function SizeScreem(){
         y = w.innerHeight || e.clientHeight || g.clientHeight;
 
     //var size = new Vector2(x - (x * 0.02), y - (y * 0.025) );
-    var size = new Vector2(800, 480 );
+    var size = new Vector2(1280, 720 );
 
     return size;
 

@@ -51,7 +51,7 @@ function Player(sXY = new Vector2() , sWH = new Vector2(), dXY = new Vector2(), 
 
 Player.prototype.limitMove = function( map = undefined ){
 
-    var minY = (sizeScreem.height - 64);
+    var minY = 684 - 46;//(sizeScreem.height - 64);
     var minX = 32;
     var maxX = sizeScreem.width - 32;
 
