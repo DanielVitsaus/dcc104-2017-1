@@ -1,0 +1,24 @@
+body {
+	font-family: sans-serif;
+	background: #ddd;
+	color: #DDD;
+}
+#container {
+	width: 1024px;
+    height: auto;
+	margin: auto ;
+	text-align: center;
+	background: #000;
+}
+
+#container canvas {
+    background-size: 1024px 768px;
+}
+
+#container p {
+	font-size: 24px;
+}
+
+#container p span {
+	margin: 0;
+}

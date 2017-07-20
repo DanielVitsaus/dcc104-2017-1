@@ -4,42 +4,40 @@ var deltaTime = 0;
 
 function start(){
     
+    /*
+    sheetBD.add("walk", "img/RobotBoyWalkSprite.png");
+    sheetBD.add("idle", "img/RobotBoyIdleSprite.png");
+    */
+    
+    sheets.add("walk", "img/RobotBoyWalkSprite.png");
+    sheets.add("idle", "img/RobotBoyIdleSprite.png");
+    sheets.add("jump", "img/RobotBoyJumpSprite.png");
+    
+    
     var canvas      = document.getElementById("game");
-    var context     = canvas.getContext("2d");
+    var context     = canvas.getContext("2d");    
+    
+    //sheets.print();   
     
     
-    var tra = new Player("img/RobotBoyWalkSprite2.png", 
-                         new Vector2(0,0), 
+    var tra = new Player(new Vector2(0,0), 
                          new Vector2(128,256), 
-                         new Vector2(sizeScreem.width/2 - 64,sizeScreem.height/2), 
+                         new Vector2(sizeScreem.width/2,sizeScreem.height/2), 
                          new Vector2(128/2,256/2));
     
-    var ob = new GameObject();
+    var ob = new GameObject();   
     
-    console.log(tra.position);
-    console.log(ob);
+    var c = new Transform();
+    
+    console.log(c);
+    
+    var x = 1 , y = 0;
     
     Update();
     
     function Update (){
         
-        requestAnimationFrame( Update );
-        
-        /*
-        var inicio = new Date().getTime();
-        var fim = new Date().getSeconds();
-        
-        if (fim === 0)
-            fim = 1;
-        
-        fim = DT / fim ;
-        
-        deltaTime = (fim);//(Math.sqrt(DT) ) ;
-        
-        console.log(deltaTime);
-        */
-        
-        //console.log(new Date().getSeconds());
+        requestAnimationFrame( Update );      
     
         render(context);        
     }
@@ -47,23 +45,49 @@ function start(){
     function render ( context ){
 
         context.clearRect(0,0,sizeScreem.width,sizeScreem.height); 
-        context.save();
-           
         
-        tra.transform.Translate( context );
-        tra.limitMove();
-        //tra.transform.acceleration.copy ( new Vector2(0,1).multiplyScalar(1 * -G / DT ) ) ;
-        //tra.transform.acceleration.copy ( new Vector2(1,0).multiplyScalar(-30) ) ;
+        tra.move( context );   
+        tra.limitMove();          
+        tra.draw( context );      
         
-        tra.transform.acceleration.copy ( new Vector2(50, 0.5 * -G / DT) ) ;
-       
-        //tra.transform.Rotate((Math.PI/180)*90, context);        
-        
-        tra.sprite.Draw( context );
-        
-        context.restore();
-
     }   
+    
+    var down = false;
+    var contJump = 1;
+    
+    
+    addEventListener("keydown", function(e){
+        //console.log(e.keyCode);
+        if(e.keyCode == 37 || e.keyCode == 65){
+            tra.moveToRight = true;
+            x = 1;
+            
+        } else if(e.keyCode == 39 || e.keyCode == 68){
+            tra.moveToLeft = true;
+            x = -1;
+            
+        } else if(e.keyCode == 38 || e.keyCode == 32){           
+           
+            if(!tra.components["sprite"].animation.isExecuting("jump")) {                
+                tra.jump = true;
+                contJump++;
+            }
+        }
+    });
+    
+    addEventListener("keyup", function(e){
+       
+        if(e.keyCode == 37 || e.keyCode == 65){
+            tra.moveToRight = false;
+            
+        } else if(e.keyCode == 39 || e.keyCode == 68) {
+            tra.moveToLeft = false;
+            
+        } else if(e.keyCode == 38 || e.keyCode == 32) {
+            tra.jump = false;
+            down = false;            
+        }					
+    });
     
 }
 

@@ -5,10 +5,11 @@ const DGRID = 16;	//< delta grid
 const EPS  = 0.05;	//< floating error
 const FPS = 60;		//< frames per second
 const DT = 1.0/FPS;	//< seconds per frame
-const G = -10;		//< gravity
+const G = -500;		//< gravity
 // inicializadas e congeladas no início do programa
 var sizeScreem = SizeScreem();
 //////////////////////////////////////////
+
 
 var herda = function(derivada, base) {
 	derivada.prototype = Object.create(base.prototype);
